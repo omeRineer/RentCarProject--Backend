@@ -27,6 +27,14 @@ namespace Business.Constans
 
         //RENT
 
+        //CAR IMAGE
+        public static string ImageAdded = "Resim eklendi";
+        public static string ImageDeleted = "Resim silindi";
+        public static string ImageUpdated = "Resim güncellendi";
+
+        public static string ImageAddedError = "Resim eklenemedi";
+        public static string ImageDeletedError = "Resim silinemedi";
+        public static string ImageUpdatedError = "Resim güncellenemedi";
 
 
     }
