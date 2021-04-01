@@ -31,9 +31,9 @@ namespace Core.Utility.Helpers.FileHelpers
 
         }
 
-        public IResult Delete(string path, string file)
+        public IResult Delete(string path)
         {
-            System.IO.File.Delete(path + file);
+            System.IO.File.Delete(path);
             return new SuccessResult();
         }
 

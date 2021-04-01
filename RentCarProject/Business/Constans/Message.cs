@@ -22,7 +22,12 @@ namespace Business.Constans
         public static string ColorUpdated = "Renk güncellendi";
 
         //USER
-
+        public static string UserRegistered = "Üye olundu";
+        public static string UserNotFound = "Kullanıcı bulunamadı";
+        public static string PasswordError = "Şifre hatası";
+        public static string SuccessfulLogin = "Başarılı giriş";
+        public static string UserAlreadyExists = "Kullanıcı mevcut";
+        public static string AccessTokenCreated = "Token oluşturuldu";
         //CUSTOMER
 
         //RENT
@@ -36,6 +41,7 @@ namespace Business.Constans
         public static string ImageDeletedError = "Resim silinemedi";
         public static string ImageUpdatedError = "Resim güncellenemedi";
 
-
+        //AUTHORİZATİON
+        public static string AuthorizationDenied = "Yetki reddedildi";
     }
 }

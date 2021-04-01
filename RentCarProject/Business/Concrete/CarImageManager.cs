@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.Constans;
+using Core.Utility.BusinessRules;
 using Core.Utility.Helpers.FileHelpers;
 using Core.Utility.Result;
 using DataAccess.Abstract;
@@ -25,11 +26,13 @@ namespace Business.Concrete
 
         public IResult Add(IFormFile file,CarImage carImage)
         {
+            IResult result = BusinessRules.Run();
+
             var image = _fileHelper.Upload(file, "Image");
             if (image.Success)
             {
                 carImage.Date = DateTime.Today;
-                carImage.ImagePath = file.FileName;
+                carImage.ImagePath = image.Data;
                 _carImageDal.Add(carImage);
                 return new SuccessResult(Message.ImageAdded);
             }
@@ -37,12 +40,15 @@ namespace Business.Concrete
             
         }
 
-        public IResult Delete(string path,int carImageId)
+        public IResult Delete(CarImage carImage)
         {
-            var result = _carImageDal.Get(p => p.ImageId == carImageId);
-            if (result!=null)
+            IResult result = BusinessRules.Run(CheckAvaiblePicture(carImage.CarImageId));
+
+            if (result==null)
             {
-                var fileResult = _fileHelper.Delete(path, result.ImagePath);
+                var picture = _carImageDal.Get(p => p.CarImageId == carImage.CarImageId);
+                var fileResult = _fileHelper.Delete(picture.ImagePath);
+                _carImageDal.Delete(carImage);
                 if (fileResult.Success)
                 {
                     return new SuccessResult(Message.ImageDeleted);
@@ -64,6 +70,17 @@ namespace Business.Concrete
         public IResult Update(IFormFile file, CarImage carImage)
         {
             throw new NotImplementedException();
+        }
+
+
+        private IResult CheckAvaiblePicture(int carImageId)
+        {
+            var result = _carImageDal.Get(p => p.CarImageId == carImageId);
+            if (result!=null)
+            {
+                return new SuccessResult();
+            }
+            return new ErrorResult();
         }
     }
 }

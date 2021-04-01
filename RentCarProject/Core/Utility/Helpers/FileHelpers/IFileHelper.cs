@@ -9,7 +9,7 @@ namespace Core.Utility.Helpers.FileHelpers
     public interface IFileHelper
     {
         IDataResult<string> Upload(IFormFile file, string fileType);
-        IResult Delete(string path, string file);
+        IResult Delete(string file);
         IDataResult<string> FileControl(IFormFile file, string[] fileExtention);
         IDataResult<string[]> FileExtensionRotates(string FileType);
     }

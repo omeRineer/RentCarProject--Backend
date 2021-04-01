@@ -1,4 +1,6 @@
-﻿using Core.Utility.IoC;
+﻿using Core.CrossCuttingConcerns.Caching;
+using Core.CrossCuttingConcerns.Caching.Microsoft;
+using Core.Utility.IoC;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -13,7 +15,9 @@ namespace Core.DependencyResolvers
         public void Load(IServiceCollection serviceCollection)
         {
             serviceCollection.AddMemoryCache();
+            serviceCollection.AddSingleton<ICacheManager, MemoryCacheManager>();
             serviceCollection.AddSingleton<Stopwatch>();
+            serviceCollection.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
     }
 }

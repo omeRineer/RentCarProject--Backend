@@ -46,7 +46,8 @@ namespace Business.Concrete
             if (result!=null)
             {
                 return result;
-            }_carDal.Delete(car);
+            }
+            _carDal.Delete(car);
             return new SuccessResult(Message.CarDeleted);
         }
 
