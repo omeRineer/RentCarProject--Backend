@@ -10,14 +10,17 @@ namespace Business.Abstract
     public interface ICarService
     {
         IDataResult<List<Car>> GetAll();
-        IDataResult<List<Car>> GetByBrandId(int brandId);
-        IDataResult<List<Car>> GetByColorId(int colorId);
-        IDataResult<Car> GetById(int id);
+        IDataResult<Car> GetById(int carId);
+
+        IDataResult<List<CarDto>> GetListByBrandId(int brandId);
+        IDataResult<List<CarDto>> GetListByColorId(int colorId);
+        IDataResult<List<CarDto>> GetListColorAndBrandId(int colorId, int brandId);
+        IDataResult<List<CarDto>> GetByCarId(int id); //Tek elemanlı bir dizi döndürür
         IResult Add(Car car);
         IResult Delete(Car car);
         IResult Update(Car car);
 
 
-        IDataResult<List<CarDto>> GetAllByCarDetail();
+        IDataResult<List<CarDto>> GetListByCarDetail();
     }
 }

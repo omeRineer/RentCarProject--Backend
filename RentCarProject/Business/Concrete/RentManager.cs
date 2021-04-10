@@ -5,9 +5,11 @@ using Core.Utility.BusinessRules;
 using Core.Utility.Result;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace Business.Concrete
 {
@@ -23,12 +25,14 @@ namespace Business.Concrete
         [ValidationAspect(typeof(RentValidator))]
         public IResult Add(Rent rent)
         {
-            IResult result = BusinessRules.Run();
+            IResult result = BusinessRules.Run(CheckIfRentExist(rent.Car));
 
             if (result != null)
             {
                 return result;
             }
+            rent.RentDate = DateTime.Today;
+            rent.ReturnDate = DateTime.Today.AddDays(2);
             _rentDal.Add(rent);
             return new SuccessResult();
         }
@@ -51,6 +55,11 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Rent>>(_rentDal.GetAll());
         }
 
+        public IDataResult<List<RentDto>> GetRentByDto()
+        {
+            return new SuccessDataResult<List<RentDto>>(_rentDal.GetByRentDto());
+        }
+
         [ValidationAspect(typeof(RentValidator))]
         public IResult Update(Rent rent)
         {
@@ -61,6 +70,16 @@ namespace Business.Concrete
                 return result;
             }
             _rentDal.Update(rent);
+            return new SuccessResult();
+        }
+
+        private IResult CheckIfRentExist(int carId)
+        {
+            var result = _rentDal.Get(p => p.Car == carId);
+            if (result!=null)
+            {
+                return new ErrorResult();
+            }
             return new SuccessResult();
         }
     }

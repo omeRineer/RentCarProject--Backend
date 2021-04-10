@@ -32,7 +32,7 @@ namespace Business.Concrete
             if (image.Success)
             {
                 carImage.Date = DateTime.Today;
-                carImage.ImagePath = image.Data;
+                carImage.ImagePath = image.Data.Remove(0, 10);
                 _carImageDal.Add(carImage);
                 return new SuccessResult(Message.ImageAdded);
             }

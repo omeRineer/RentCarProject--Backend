@@ -11,6 +11,7 @@ namespace Core.Utility.Helpers.FileHelpers
     {
         public IDataResult<string> Upload(IFormFile file, string fileType)
         {
+            var _currentDirectory = Environment.CurrentDirectory + @"\wwwroot\Images";
             var resultFileRotates = FileExtensionRotates(fileType);
             if (resultFileRotates.Success)
             {
@@ -19,7 +20,8 @@ namespace Core.Utility.Helpers.FileHelpers
                 {
                     string replaceFileName = resultFileControl.Data;
                     var files = Path.Combine(replaceFileName);
-                    using (var fileStream = new FileStream(files, FileMode.Create))
+                    Directory.CreateDirectory(_currentDirectory);
+                    using (var fileStream = new FileStream(replaceFileName, FileMode.Create))
                     {
                         file.CopyTo(fileStream);
                     }
@@ -34,7 +36,7 @@ namespace Core.Utility.Helpers.FileHelpers
         public IResult Delete(string path)
         {
             System.IO.File.Delete(path);
-            return new SuccessResult();
+           return new SuccessResult();
         }
 
         public IDataResult<string[]> FileExtensionRotates(string FileType)
@@ -54,7 +56,7 @@ namespace Core.Utility.Helpers.FileHelpers
             {
                 if (fileExtentions[i].ToLower() == getFileExtensions)
                 {
-                    string fileName = ".\\" + fileExtentions[0] + "\\" + Guid.NewGuid().ToString() + getFileExtensions;
+                    string fileName =@".\wwwroot\"+ fileExtentions[0] + @"\" + Guid.NewGuid().ToString() + getFileExtensions;
                     return new SuccessDataResult<string>(fileName);
                 }
             }

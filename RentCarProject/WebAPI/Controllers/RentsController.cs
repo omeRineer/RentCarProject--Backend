@@ -31,6 +31,17 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet("getallbydto")]
+        public IActionResult GetAllByDto()
+        {
+            var result = _rentService.GetRentByDto();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpPost("add")]
         public IActionResult Add(Rent rent)
         {

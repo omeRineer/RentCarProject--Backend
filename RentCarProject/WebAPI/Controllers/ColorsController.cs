@@ -30,6 +30,17 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+
+        [HttpGet("getbycolorid")]
+        public IActionResult GetByColorId(int id)
+        {
+            var result = _colorService.GetByColorId(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
         
         [HttpPost("add")]
         public IActionResult Add(Color color)

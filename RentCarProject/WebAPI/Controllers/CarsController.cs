@@ -32,10 +32,21 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet("getbycarid")]
+        public IActionResult GetByCarId(int id)
+        {
+            var result = _carService.GetById(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpGet("getallbydto")]
         public IActionResult GetAllCarByDto()
         {
-            var result = _carService.GetAllByCarDetail();
+            var result = _carService.GetListByCarDetail();
 
             if (result.Success)
             {
@@ -47,7 +58,7 @@ namespace WebAPI.Controllers
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
-            var result = _carService.GetById(id);
+            var result = _carService.GetByCarId(id);
             if (result.Success)
             {
                 return Ok(result);
@@ -56,9 +67,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbybrandid")]
-        public IActionResult GetByBrandId(int brandId)
+        public IActionResult GetListByBrandId(int brandId)
         {
-            var result = _carService.GetByBrandId(brandId);
+            var result = _carService.GetListByBrandId(brandId);
             if (result.Success)
             {
                 return Ok(result);
@@ -67,9 +78,20 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getbycolorid")]
-        public IActionResult GetByColorId(int colorId)
+        public IActionResult GetListByColorId(int colorId)
         {
-            var result = _carService.GetByColorId(colorId);
+            var result = _carService.GetListByColorId(colorId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getbycolorandbrandid")]
+        public IActionResult GetByColorAndBrandId(int colorId,int brandId)
+        {
+            var result = _carService.GetListColorAndBrandId(colorId, brandId);
             if (result.Success)
             {
                 return Ok(result);
