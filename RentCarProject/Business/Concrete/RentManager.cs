@@ -16,24 +16,37 @@ namespace Business.Concrete
     public class RentManager : IRentService
     {
         IRentDal _rentDal;
+        ICardService _cardService;
 
-        public RentManager(IRentDal rentDal)
+        public RentManager(IRentDal rentDal,ICardService cardService)
         {
             _rentDal = rentDal;
+            _cardService = cardService;
         }
 
         [ValidationAspect(typeof(RentValidator))]
-        public IResult Add(Rent rent)
+        public IResult Add(RentalPaymentDto rentalPaymentDto)
         {
-            IResult result = BusinessRules.Run(CheckIfRentExist(rent.Car));
+            IResult result = BusinessRules.Run(CheckIfRentExist(rentalPaymentDto.Car));
 
             if (result != null)
             {
                 return result;
             }
-            rent.RentDate = DateTime.Today;
-            rent.ReturnDate = DateTime.Today.AddDays(2);
-            _rentDal.Add(rent);
+
+            var cardExist = _cardService.IsCardExist(new Card { CardNumber = rentalPaymentDto.CardNumber, CVV = rentalPaymentDto.CVV });
+            if (!cardExist.Success)
+            {
+                return cardExist;
+            }
+
+            _rentDal.Add(new Rent
+            {
+                Car=rentalPaymentDto.Car,
+                Customer=rentalPaymentDto.Customer,
+                RentDate=rentalPaymentDto.RentDate,
+                ReturnDate=rentalPaymentDto.ReturnDate
+            });
             return new SuccessResult();
         }
 

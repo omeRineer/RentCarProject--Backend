@@ -71,9 +71,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarDto>>(_carDal.GetListByCarDetail(p => p.CarColor == colorId));
         }
 
-        public IDataResult<List<CarDto>> GetByCarId(int id)
+        public IDataResult<CarDto> GetByCarId(int id)
         {
-            return new SuccessDataResult<List<CarDto>>(_carDal.GetListByCarDetail(p=>p.CarId==id));
+            return new SuccessDataResult<CarDto>(_carDal.GetIdByCarDetail(id));
         }
 
         [ValidationAspect(typeof(CarValidator))]

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
 using Entities.Concrete;
+using Entities.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,9 +44,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(Rent rent)
+        public IActionResult Add(RentalPaymentDto rental)
         {
-            var result = _rentService.Add(rent);
+            var result = _rentService.Add(rental);
             if (result.Success)
             {
                 return Ok(result);
